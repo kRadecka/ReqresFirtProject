@@ -45,6 +45,14 @@ open class Payload {
                 "}"
     }
 
+    fun incorrectData2(): String {
+        var newIncorrectPassword = "sydney@fife"
+        return "{\n" +
+                "    \"password\": \""+newIncorrectPassword+"\"\n" +
+                "}"
+    }
+
+
     fun loginSuccessful():String{
         var login = "eve.holt@reqres.in"
         var password = "cityslicka"
@@ -58,6 +66,13 @@ open class Payload {
         var badLogin = "eve.holt@reqres.in"
         return "{\n" +
                 "    \"email\": \""+badLogin+"\"\n" +
+                "}"
+    }
+
+    fun loginUnuccessful2():String{
+        var badPassword = "cityslicka"
+        return "{\n" +
+                "    \"password\": \""+badPassword+"\"\n" +
                 "}"
     }
 
