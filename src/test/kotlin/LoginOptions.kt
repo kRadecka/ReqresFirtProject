@@ -67,6 +67,7 @@ class LoginOptions :BaseTest() {
 
         Assert.assertEquals(actualError2, "Missing email or username")
     }
+
     @Test
     fun postLoginUnsuccessfulEmptyResponse(){
         val postLoginUnsuccessfulEmptyResponse = RestAssured.given().spec(requestSpecification)
