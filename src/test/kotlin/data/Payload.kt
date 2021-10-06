@@ -11,7 +11,6 @@ open class Payload {
     }
 
 
-
     fun rawToJson(resp: String): JsonPath {
         return JsonPath(resp)
     }

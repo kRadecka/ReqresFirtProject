@@ -20,7 +20,6 @@ class UserOptions: BaseTest() {
     @Test
     fun postCreateUser() {
 
-
          val postCreateUserResponse =  given().spec(requestSpecification)
             .body(Payload().addUser())
             .`when`().post("users")

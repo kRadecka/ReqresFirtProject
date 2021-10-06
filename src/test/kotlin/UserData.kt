@@ -47,7 +47,5 @@ class UserData :BaseTest() {
         Payload().log(getSingleUserNotFoundResponse)
     }
 
-
-
 }
 

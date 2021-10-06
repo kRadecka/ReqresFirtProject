@@ -33,6 +33,7 @@ class ResourceData : BaseTest(){
         Payload().log(getSingleResourceResponse)
     }
 
+
     @Test
     fun getSingleResourceNotFound(){
 

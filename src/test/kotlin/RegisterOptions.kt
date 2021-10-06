@@ -11,6 +11,7 @@ import java.io.PrintStream
 
 class RegisterOptions: BaseTest() {
 
+
     @Test
     fun postRegisterSuccessful(){
         val log = PrintStream(FileOutputStream("postRegisterSuccessful.txt"))

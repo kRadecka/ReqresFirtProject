@@ -8,7 +8,6 @@ class GetDelayedResponse: BaseTest() {
 
     @Test
     fun getDelayedResponse(){
-
         val getDelayedResponse =  given().spec(requestSpecification)
             .queryParam("delay","3")
             .`when`().get("users")
