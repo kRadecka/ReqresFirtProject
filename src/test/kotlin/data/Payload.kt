@@ -1,8 +1,16 @@
 package data
-
 import io.restassured.path.json.JsonPath
 
+import org.slf4j.LoggerFactory
+
 open class Payload {
+
+      private val logger = LoggerFactory.getLogger("reqres.in")
+          fun log(s: String) {
+          logger.info(s)
+    }
+
+
 
     fun rawToJson(resp: String): JsonPath {
         return JsonPath(resp)
@@ -24,8 +32,8 @@ open class Payload {
             val newName = "morpheus"
 
             return "{\n" +
-                    "    \"name\": \"" + newJob + "\",\n" +
-                    "    \"job\": \"" + newName + "\"\n" +
+                    "    \"name\": \"" +newName+ "\",\n" +
+                    "    \"job\": \"" +newJob+ "\"\n" +
                     "}"
         }
 
@@ -43,7 +51,7 @@ open class Payload {
             val newIncorrectEmail = "sydney@fife"
 
             return "{\n"+
-                    "    \"password\": \""+newIncorrectEmail+"\"\n" +
+                    "    \"email\": \""+newIncorrectEmail+"\"\n" +
                     "}"
         }
 

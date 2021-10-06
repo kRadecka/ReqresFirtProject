@@ -1,28 +1,26 @@
 import data.BaseTest
 import data.Payload
-import io.restassured.RestAssured
-import io.restassured.filter.log.RequestLoggingFilter
-import io.restassured.filter.log.ResponseLoggingFilter
+import io.restassured.RestAssured.config
+import io.restassured.RestAssured.given
+import io.restassured.http.ContentType
 import io.restassured.path.json.JsonPath
+import org.hamcrest.Matchers
 import org.junit.Assert
 import org.junit.Test
-import java.io.FileOutputStream
-import java.io.PrintStream
 
 class LoginOptions :BaseTest() {
-    var log = PrintStream(FileOutputStream("postLoginSuccessful.txt"))
 
     @Test
     fun postLoginSuccessful() {
 
-
-        val postLoginSuccessfulResponse = RestAssured.given().spec(requestSpecification)
-            .filters(RequestLoggingFilter.logRequestTo(log))
-            .filters(ResponseLoggingFilter.logResponseTo(log))
+        val postLoginSuccessfulResponse = given().spec(requestSpecification)
             .body(Payload().loginSuccessful())
             .`when`().post("login")
-            .then().assertThat().statusCode(200)
+            .then().assertThat().statusCode(200).assertThat()
+            .contentType(ContentType.JSON).assertThat()
+            .header("Content-Length", Matchers.equalTo("29"))
             .extract().response().asString()
+        Payload().log(postLoginSuccessfulResponse)
 
 
         val js1: JsonPath = Payload().rawToJson(postLoginSuccessfulResponse)
@@ -33,15 +31,15 @@ class LoginOptions :BaseTest() {
     }
     @Test
     fun postLoginUnsuccessful() {
-        var log = PrintStream(FileOutputStream("postLoginUnsuccessful.txt"))
 
-        val postLoginUnsuccessfulResponse = RestAssured.given().spec(requestSpecification)
-            .filters(RequestLoggingFilter.logRequestTo(log))
-            .filters(ResponseLoggingFilter.logResponseTo(log))
+        val postLoginUnsuccessfulResponse = given().spec(requestSpecification)
             .body(Payload().loginUnuccessful())
             .`when`().post("login")
-            .then().assertThat().statusCode(400)
+            .then().assertThat().statusCode(400).assertThat()
+            .contentType(ContentType.JSON).assertThat()
+            .header("Content-Length", Matchers.equalTo("28"))
             .extract().response().asString()
+        Payload().log(postLoginUnsuccessfulResponse)
 
         val js1: JsonPath = Payload().rawToJson(postLoginUnsuccessfulResponse)
         val actualError: String = js1.getString("error")
@@ -53,13 +51,14 @@ class LoginOptions :BaseTest() {
     @Test
     fun postLoginUnsuccessfulPasswordResponse() {
 
-        val postLoginUnsuccessfulPasswordResponse = RestAssured.given().spec(requestSpecification)
-            .filters(RequestLoggingFilter.logRequestTo(log))
-            .filters(ResponseLoggingFilter.logResponseTo(log))
+        val postLoginUnsuccessfulPasswordResponse = given().spec(requestSpecification)
             .body(Payload().loginUnuccessful2())
             .`when`().post("login")
-            .then().assertThat().statusCode(400)
+            .then().assertThat().statusCode(400).assertThat()
+            .contentType(ContentType.JSON).assertThat()
+            .header("Content-Length", Matchers.equalTo("37"))
             .extract().response().asString()
+        Payload().log(postLoginUnsuccessfulPasswordResponse)
 
         val js2: JsonPath = Payload().rawToJson(postLoginUnsuccessfulPasswordResponse)
         val actualError2: String = js2.getString("error")
@@ -70,13 +69,14 @@ class LoginOptions :BaseTest() {
 
     @Test
     fun postLoginUnsuccessfulEmptyResponse(){
-        val postLoginUnsuccessfulEmptyResponse = RestAssured.given().spec(requestSpecification)
-            .filters(RequestLoggingFilter.logRequestTo(log))
-            .filters(ResponseLoggingFilter.logResponseTo(log))
+        val postLoginUnsuccessfulEmptyResponse = given().spec(requestSpecification)
             .body("")
             .`when`().post("login")
-            .then().assertThat().statusCode(400)
+            .then().assertThat().statusCode(400).assertThat()
+            .contentType(ContentType.JSON).assertThat()
+            .header("Content-Length", Matchers.equalTo("37"))
             .extract().response().asString()
+        Payload().log(postLoginUnsuccessfulEmptyResponse)
 
         val js3 : JsonPath = Payload().rawToJson(postLoginUnsuccessfulEmptyResponse)
         val actualError3 :String = js3.getString("error")

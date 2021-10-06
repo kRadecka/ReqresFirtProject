@@ -1,57 +1,50 @@
 import data.BaseTest
+import data.Payload
 import io.restassured.RestAssured.given
-import io.restassured.filter.log.RequestLoggingFilter
-import io.restassured.filter.log.ResponseLoggingFilter
-import org.apache.commons.lang3.ArrayUtils.isNotEmpty
-import org.apache.commons.lang3.ObjectUtils.isNotEmpty
-import org.apache.commons.lang3.StringUtils.isNotEmpty
+import io.restassured.http.ContentType
 import org.hamcrest.Matchers.*
 import org.junit.Test
-import java.io.FileOutputStream
-import java.io.PrintStream
 
 class UserData :BaseTest() {
 
     @Test
     fun getUserList() {
 
-        val log = PrintStream(FileOutputStream("getUserList.txt"))
-
-             given().spec(requestSpecification)
-            .filters(RequestLoggingFilter.logRequestTo(log))
-            .filters(ResponseLoggingFilter.logResponseTo(log))
+        val getUserListResponse =  given().spec(requestSpecification)
             .queryParam("page", "2")
             .`when`().get("users")
-            .then().assertThat().statusCode(200)
-                 .body("data.size()" , greaterThan(0))
-            .extract().response()
+            .then().assertThat().statusCode(200).assertThat()
+                 .body("data.size()" , greaterThan(0)).assertThat()
+            .contentType(ContentType.JSON)
+            .extract().response().asString()
+        Payload().log(getUserListResponse)
 
     }
 
     @Test
     fun getSingleUser(){
 
-        val log = PrintStream(FileOutputStream("getSingleUser.txt"))
-        given().spec(requestSpecification)
-            .filters(RequestLoggingFilter.logRequestTo(log))
-            .filters(ResponseLoggingFilter.logResponseTo(log))
+        val getSingleUserResponse =  given().spec(requestSpecification)
             .`when`().get("users/2")
-            .then().assertThat().statusCode(200)
-            .body("data.size()" , greaterThan(0))
-            .extract().response()
+            .then().assertThat().statusCode(200).assertThat()
+            .body("data.size()" , greaterThan(0)).assertThat()
+            .contentType(ContentType.JSON)
+            .extract().response().asString()
+        Payload().log(getSingleUserResponse)
+
     }
 
     @Test
     fun getSingleUserNotFound(){
-        val log = PrintStream(FileOutputStream("getSingleUserNotFound.txt"))
 
-        given().spec(requestSpecification)
-            .filters(RequestLoggingFilter.logRequestTo(log))
-            .filters(ResponseLoggingFilter.logResponseTo(log))
+       val getSingleUserNotFoundResponse = given().spec(requestSpecification)
             .`when`().get("users/23")
-            .then().assertThat().statusCode(404)
-            .body("size()" , equalTo(0))
-            .extract().response()
+            .then().assertThat().statusCode(404).assertThat()
+            .body("size()" , equalTo(0)).assertThat()
+           .contentType(ContentType.JSON).assertThat()
+           .header("Content-Length", equalTo("2"))
+            .extract().response().asString()
+        Payload().log(getSingleUserNotFoundResponse)
     }
 
 

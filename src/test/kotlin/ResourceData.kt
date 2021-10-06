@@ -1,54 +1,48 @@
 import data.BaseTest
-import io.restassured.RestAssured
+import data.Payload
 import io.restassured.RestAssured.given
-import io.restassured.filter.log.RequestLoggingFilter
-import io.restassured.filter.log.ResponseLoggingFilter
-import org.hamcrest.Matchers
+import io.restassured.http.ContentType
 import org.hamcrest.Matchers.equalTo
 import org.hamcrest.Matchers.greaterThan
 import org.junit.Test
-import java.io.FileOutputStream
-import java.io.PrintStream
 
 class ResourceData : BaseTest(){
 
     @Test
     fun getListResource(){
-        val log = PrintStream(FileOutputStream("getListResource.txt"))
 
-        given().spec(requestSpecification)
-            .filters(RequestLoggingFilter.logRequestTo(log))
-            .filters(ResponseLoggingFilter.logResponseTo(log))
+      val getListResourceResponse =  given().spec(requestSpecification)
             .`when`().get("unknown")
-            .then().assertThat().statusCode(200)
-            .body("data.size()", greaterThan(0))
-            .extract().response()
+            .then().assertThat().statusCode(200).assertThat()
+            .body("data.size()", greaterThan(0)).assertThat()
+          .contentType(ContentType.JSON)
+            .extract().response().asString()
+        Payload().log(getListResourceResponse)
 
     }
 
     @Test
     fun getSingleResource(){
-        val log = PrintStream(FileOutputStream("getSingleResource.txt"))
 
-        given().spec(requestSpecification)
-            .filters(RequestLoggingFilter.logRequestTo(log))
-            .filters(ResponseLoggingFilter.logResponseTo(log))
+        val getSingleResourceResponse = given().spec(requestSpecification)
             .`when`().get("unknown/2")
-            .then().assertThat().statusCode(200)
-            .body("data.size()", greaterThan(0))
-            .extract().response()
+            .then().assertThat().statusCode(200).assertThat()
+            .body("data.size()", greaterThan(0)).assertThat()
+            .contentType(ContentType.JSON)
+            .extract().response().asString()
+        Payload().log(getSingleResourceResponse)
     }
 
     @Test
     fun getSingleResourceNotFound(){
-        val log = PrintStream(FileOutputStream("getSingleResourceNotFound.txt"))
 
-        given().spec(requestSpecification)
-            .filters(RequestLoggingFilter.logRequestTo(log))
-            .filters(ResponseLoggingFilter.logResponseTo(log))
+        val getSingleResourceNotFoundResponse =  given().spec(requestSpecification)
             .`when`().get("unknown/23")
-            .then().assertThat().statusCode(404)
-            .body("size()", equalTo(0))
-            .extract().response()
+            .then().assertThat().statusCode(404).assertThat()
+            .body("size()", equalTo(0)).assertThat()
+            .contentType(ContentType.JSON).assertThat()
+            .header("Content-Length", equalTo("2"))
+            .extract().response().asString()
+        Payload().log(getSingleResourceNotFoundResponse)
     }
 }

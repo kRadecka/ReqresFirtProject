@@ -1,41 +1,42 @@
 import data.BaseTest
 import data.Payload
-import io.restassured.RestAssured
-import io.restassured.filter.log.RequestLoggingFilter
-import io.restassured.filter.log.ResponseLoggingFilter
+import io.restassured.RestAssured.given
+import io.restassured.http.ContentType
 import io.restassured.path.json.JsonPath
+import org.hamcrest.Matchers
 import org.junit.Assert
 import org.junit.Test
 import java.io.FileOutputStream
 import java.io.PrintStream
 
-class RegisteOptions: BaseTest() {
-    val log = PrintStream(FileOutputStream("postRegisterUnsuccessful.txt"))
+class RegisterOptions: BaseTest() {
 
     @Test
     fun postRegisterSuccessful(){
         val log = PrintStream(FileOutputStream("postRegisterSuccessful.txt"))
 
-        RestAssured.given().spec(requestSpecification)
-            .filters(RequestLoggingFilter.logRequestTo(log))
-            .filters(ResponseLoggingFilter.logResponseTo(log))
+        val postRegisterSuccessfulResponse = given().spec(requestSpecification)
             .body(Payload().registerUser())
             .`when`().post("register")
-            .then().assertThat().statusCode(200)
-            .extract().response()
+            .then().assertThat().statusCode(200).assertThat()
+            .contentType(ContentType.JSON).assertThat()
+            .header("Content-Length", Matchers.equalTo("36"))
+            .extract().response().asString()
+        Payload().log(postRegisterSuccessfulResponse)
     }
 
     @Test
     fun postRegisterUnsuccessful() {
 
 
-        val postRegisterUnsuccessfulResponse = RestAssured.given().spec(requestSpecification)
-            .filters(RequestLoggingFilter.logRequestTo(log))
-            .filters(ResponseLoggingFilter.logResponseTo(log))
+        val postRegisterUnsuccessfulResponse = given().spec(requestSpecification)
             .body(Payload().incorrectData())
             .`when`().post("register")
-            .then().assertThat().statusCode(400)
+            .then().assertThat().statusCode(400).assertThat()
+            .contentType(ContentType.JSON).assertThat()
+            .header("Content-Length", Matchers.equalTo("28"))
             .extract().response().asString()
+        Payload().log(postRegisterUnsuccessfulResponse)
 
 
         val js1: JsonPath = Payload().rawToJson(postRegisterUnsuccessfulResponse)
@@ -46,13 +47,14 @@ class RegisteOptions: BaseTest() {
     }
         @Test
         fun postRegisterUnsuccessfulPasswordResponse() {
-            val postRegisterUnsuccessfulPasswordResponse = RestAssured.given().spec(requestSpecification)
-                .filters(RequestLoggingFilter.logRequestTo(log))
-                .filters(ResponseLoggingFilter.logResponseTo(log))
+            val postRegisterUnsuccessfulPasswordResponse = given().spec(requestSpecification)
                 .body(Payload().incorrectData2())
                 .`when`().post("register")
-                .then().assertThat().statusCode(400)
+                .then().assertThat().statusCode(400).assertThat()
+                .contentType(ContentType.JSON).assertThat()
+                .header("Content-Length", Matchers.equalTo("37"))
                 .extract().response().asString()
+            Payload().log(postRegisterUnsuccessfulPasswordResponse)
 
 
             val js2: JsonPath = Payload().rawToJson(postRegisterUnsuccessfulPasswordResponse)
@@ -64,13 +66,14 @@ class RegisteOptions: BaseTest() {
 
         @Test
         fun postRegisterUnsuccessfulEmptyResponse() {
-            val postRegisterUnsuccessfulEmptyResponse = RestAssured.given().spec(requestSpecification)
-                .filters(RequestLoggingFilter.logRequestTo(log))
-                .filters(ResponseLoggingFilter.logResponseTo(log))
+            val postRegisterUnsuccessfulEmptyResponse = given().spec(requestSpecification)
                 .body("")
                 .`when`().post("register")
-                .then().assertThat().statusCode(400)
+                .then().assertThat().statusCode(400).assertThat()
+                .contentType(ContentType.JSON).assertThat()
+                .header("Content-Length", Matchers.equalTo("37"))
                 .extract().response().asString()
+            Payload().log(postRegisterUnsuccessfulEmptyResponse)
 
             val js3: JsonPath = Payload().rawToJson(postRegisterUnsuccessfulEmptyResponse)
             val actualError3: String = js3.getString("error")

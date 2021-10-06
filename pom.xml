@@ -14,7 +14,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <kotlin.code.style>official</kotlin.code.style>
-        <kotlin.compiler.jvmTarget>1.8</kotlin.compiler.jvmTarget>
+        <kotlin.compiler.jvmTarget>11</kotlin.compiler.jvmTarget>
     </properties>
 
     <repositories>
@@ -111,6 +111,29 @@
             <version>5.8.1</version>
             <scope>test</scope>
         </dependency>
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.7.30</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/io.github.microutils/kotlin-logging -->
+        <dependency>
+            <groupId>io.github.microutils</groupId>
+            <artifactId>kotlin-logging-jvm</artifactId>
+            <version>2.0.10</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.jetbrains.kotlin/kotlin-reflect -->
+        <dependency>
+            <groupId>org.jetbrains.kotlin</groupId>
+            <artifactId>kotlin-reflect</artifactId>
+            <version>1.5.31</version>
+            <scope>runtime</scope>
+        </dependency>
+
 
 
     </dependencies>

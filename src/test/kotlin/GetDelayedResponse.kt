@@ -1,23 +1,20 @@
 import data.BaseTest
+import data.Payload
 import io.restassured.RestAssured.given
-import io.restassured.filter.log.RequestLoggingFilter
-import io.restassured.filter.log.ResponseLoggingFilter
+import io.restassured.http.ContentType
 import org.junit.Test
-import java.io.FileOutputStream
-import java.io.PrintStream
 
 class GetDelayedResponse: BaseTest() {
 
     @Test
     fun getDelayedResponse(){
-        var log = PrintStream(FileOutputStream("getDelayedResponse.txt"))
 
-        given().spec(requestSpecification)
-            .filters(RequestLoggingFilter.logRequestTo(log))
-            .filters(ResponseLoggingFilter.logResponseTo(log))
+        val getDelayedResponse =  given().spec(requestSpecification)
             .queryParam("delay","3")
             .`when`().get("users")
-            .then().assertThat().statusCode(200)
+            .then().assertThat().statusCode(200).assertThat()
+            .contentType(ContentType.JSON)
             .extract().response().asString()
+            Payload().log(getDelayedResponse)
     }
 }
