@@ -18,7 +18,43 @@ class UserData :BaseTest() {
             .contentType(ContentType.JSON)
             .extract().response().asString()
         Payload().log(getUserListResponse)
+    }
 
+    @Test
+    fun getEmptyPageUserList() {
+
+        val getUserListResponse =  given().spec(requestSpecification)
+            .queryParam("page", "")
+            .`when`().get("users")
+            .then().assertThat().statusCode(200).assertThat()
+            .body("data.size()" , greaterThan(0)).assertThat()
+            .contentType(ContentType.JSON)
+            .extract().response().asString()
+        Payload().log(getUserListResponse)
+    }
+
+    @Test
+    fun getEmptyUserList() {
+
+        val getEmptyUserListResponse =  given().spec(requestSpecification)
+            .queryParam("page", "8888888888888888888888888888888888888")
+            .`when`().get("users")
+            .then().assertThat().statusCode(200).assertThat()
+            .body("data.size()" , equalTo(0)).assertThat()
+            .contentType(ContentType.JSON)
+            .extract().response().asString()
+        Payload().log(getEmptyUserListResponse)
+    }
+
+    @Test
+    fun getToLongUserList() {
+
+        val getToLongUserListResponse =  given().spec(requestSpecification)
+            .queryParam("page", Payload().veryLongPage())
+            .`when`().get("users")
+            .then().assertThat().statusCode(400)
+            .extract().response().asString()
+        Payload().log(getToLongUserListResponse)
     }
 
     @Test
@@ -28,10 +64,34 @@ class UserData :BaseTest() {
             .`when`().get("users/2")
             .then().assertThat().statusCode(200).assertThat()
             .body("data.size()" , greaterThan(0)).assertThat()
+            .body("data.size()", equalTo(5)).assertThat()
+            .body("data.id", equalTo(2)).assertThat()
             .contentType(ContentType.JSON)
             .extract().response().asString()
         Payload().log(getSingleUserResponse)
+    }
 
+    @Test
+    fun getZeroPageSingleUser(){
+
+        val getSingleUserResponse =  given().spec(requestSpecification)
+            .`when`().get("users/0")
+            .then().assertThat().statusCode(404).assertThat()
+            .body("size()", equalTo(0)).assertThat()
+            .contentType(ContentType.JSON)
+            .extract().response().asString()
+        Payload().log(getSingleUserResponse)
+    }
+
+
+    @Test
+    fun getToLongSingleUserList() {
+
+        val getToLongSingleUserListResponse =  given().spec(requestSpecification)
+            .`when`().get(Payload().veryLongPageForSingleUser())
+            .then().assertThat().statusCode(400)
+            .extract().response().asString()
+        Payload().log(getToLongSingleUserListResponse)
     }
 
     @Test

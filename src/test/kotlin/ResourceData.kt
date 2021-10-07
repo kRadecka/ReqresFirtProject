@@ -18,8 +18,8 @@ class ResourceData : BaseTest(){
           .contentType(ContentType.JSON)
             .extract().response().asString()
         Payload().log(getListResourceResponse)
-
     }
+
 
     @Test
     fun getSingleResource(){
@@ -33,6 +33,27 @@ class ResourceData : BaseTest(){
         Payload().log(getSingleResourceResponse)
     }
 
+    @Test
+    fun getZeroPageSingleResource(){
+
+        val getZeroPageSingleResourceResponse = given().spec(requestSpecification)
+            .`when`().get("unknown/0")
+            .then().assertThat().statusCode(404).assertThat()
+            .body("size()", equalTo(0)).assertThat()
+            .contentType(ContentType.JSON)
+            .extract().response().asString()
+        Payload().log(getZeroPageSingleResourceResponse)
+    }
+
+    @Test
+    fun getToLongSingleResource(){
+
+        val getToLongSingleResourceResponse = given().spec(requestSpecification)
+            .`when`().get(Payload().veryLongPageForSingleUser())
+            .then().assertThat().statusCode(400)
+            .extract().response().asString()
+        Payload().log(getToLongSingleResourceResponse)
+    }
 
     @Test
     fun getSingleResourceNotFound(){

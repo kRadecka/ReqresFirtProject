@@ -3,39 +3,112 @@ import data.Payload
 import io.restassured.RestAssured.given
 import io.restassured.http.ContentType
 import io.restassured.path.json.JsonPath
-import org.hamcrest.Matchers
+import org.hamcrest.Matchers.equalTo
 import org.junit.Assert
 import org.junit.Test
-import java.io.FileOutputStream
-import java.io.PrintStream
 
 class RegisterOptions: BaseTest() {
 
-
     @Test
     fun postRegisterSuccessful(){
-        val log = PrintStream(FileOutputStream("postRegisterSuccessful.txt"))
 
         val postRegisterSuccessfulResponse = given().spec(requestSpecification)
             .body(Payload().registerUser())
             .`when`().post("register")
             .then().assertThat().statusCode(200).assertThat()
             .contentType(ContentType.JSON).assertThat()
-            .header("Content-Length", Matchers.equalTo("36"))
+            .header("Content-Length", equalTo("36"))
             .extract().response().asString()
         Payload().log(postRegisterSuccessfulResponse)
     }
 
     @Test
-    fun postRegisterUnsuccessful() {
+    fun postRegisterEmptyBody(){
 
+        val postRegisterEmptyBodyResponse = given().spec(requestSpecification)
+            .`when`().post("register")
+            .then().assertThat().statusCode(400).assertThat()
+            .contentType(ContentType.JSON).assertThat()
+            .header("Content-Length", equalTo("37"))
+            .extract().response().asString()
+        Payload().log(postRegisterEmptyBodyResponse)
+
+        val js2: JsonPath = Payload().rawToJson(postRegisterEmptyBodyResponse)
+        val actualError2: String = js2.getString("error")
+        println(actualError2)
+
+        Assert.assertEquals(actualError2, "Missing email or username")
+    }
+
+    @Test
+    fun postRegisterIncorrectBodyFormatting(){
+
+        val postRegisterIncorrectBodyFormattingResponse = given().spec(requestSpecification)
+            .body(Payload().incorrectFormatting())
+            .`when`().post("register")
+            .then().assertThat().statusCode(400).assertThat()
+            .contentType("text/html")
+            .extract().response().asString()
+        Payload().log(postRegisterIncorrectBodyFormattingResponse)
+    }
+
+    @Test
+    fun postRegisterIncorrectBodyFormatting2(){
+
+        val postRegisterIncorrectBodyFormatting2Response = given().spec(requestSpecification)
+            .body(Payload().incorrectFormatting2())
+            .`when`().post("register")
+            .then().assertThat().statusCode(400).assertThat()
+            .contentType("text/html")
+            .extract().response().asString()
+        Payload().log(postRegisterIncorrectBodyFormatting2Response)
+    }
+
+    @Test
+    fun postRegisterVeryLongBody(){
+
+        val postRegisterVeryLongBodyResponse = given().spec(requestSpecification)
+            .body(Payload().veryLongBody())
+            .`when`().post("register")
+            .then().assertThat().statusCode(413).assertThat()
+            .contentType("text/html")
+            .extract().response().asString()
+        Payload().log(postRegisterVeryLongBodyResponse)
+    }
+
+    @Test
+    fun postRegisterSpecialSymbols(){
+
+        val postRegisterSpecialSymbolsResponse = given().spec(requestSpecification)
+            .body(Payload().specialSymbols())
+            .`when`().post("register")
+            .then().assertThat().statusCode(400).assertThat()
+            .contentType("text/html")
+            .extract().response().asString()
+        Payload().log(postRegisterSpecialSymbolsResponse)
+    }
+
+    @Test
+    fun postRegisterWithIncorrectContentType(){
+
+        val postRegisterWithIncorrectContentTypeResponse = given().spec(requestSpecification)
+            .body(Payload().incorrectContentType())
+            .`when`().post("register")
+            .then().assertThat().statusCode(400).assertThat()
+            .contentType("text/html")
+            .extract().response().asString()
+        Payload().log(postRegisterWithIncorrectContentTypeResponse)
+    }
+
+    @Test
+    fun postRegisterUnsuccessful() {
 
         val postRegisterUnsuccessfulResponse = given().spec(requestSpecification)
             .body(Payload().incorrectData())
             .`when`().post("register")
             .then().assertThat().statusCode(400).assertThat()
             .contentType(ContentType.JSON).assertThat()
-            .header("Content-Length", Matchers.equalTo("28"))
+            .header("Content-Length", equalTo("28"))
             .extract().response().asString()
         Payload().log(postRegisterUnsuccessfulResponse)
 
@@ -46,6 +119,7 @@ class RegisterOptions: BaseTest() {
 
         Assert.assertEquals(actualError, "Missing password")
     }
+
         @Test
         fun postRegisterUnsuccessfulPasswordResponse() {
             val postRegisterUnsuccessfulPasswordResponse = given().spec(requestSpecification)
@@ -53,7 +127,7 @@ class RegisterOptions: BaseTest() {
                 .`when`().post("register")
                 .then().assertThat().statusCode(400).assertThat()
                 .contentType(ContentType.JSON).assertThat()
-                .header("Content-Length", Matchers.equalTo("37"))
+                .header("Content-Length", equalTo("37"))
                 .extract().response().asString()
             Payload().log(postRegisterUnsuccessfulPasswordResponse)
 
@@ -72,7 +146,7 @@ class RegisterOptions: BaseTest() {
                 .`when`().post("register")
                 .then().assertThat().statusCode(400).assertThat()
                 .contentType(ContentType.JSON).assertThat()
-                .header("Content-Length", Matchers.equalTo("37"))
+                .header("Content-Length", equalTo("37"))
                 .extract().response().asString()
             Payload().log(postRegisterUnsuccessfulEmptyResponse)
 

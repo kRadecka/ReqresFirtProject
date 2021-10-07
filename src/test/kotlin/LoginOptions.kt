@@ -10,7 +10,6 @@ import org.junit.Test
 
 class LoginOptions :BaseTest() {
 
-
     @Test
     fun postLoginSuccessful() {
 
@@ -30,6 +29,83 @@ class LoginOptions :BaseTest() {
 
         Assert.assertEquals(actualToken, "QpwL5tke4Pnpja7X4")
     }
+
+    @Test
+    fun postLoginUnsuccessfulEmptyBody(){
+        val postLoginUnsuccessfulEmptyResponse = given().spec(requestSpecification)
+            .`when`().post("login")
+            .then().assertThat().statusCode(400).assertThat()
+            .contentType(ContentType.JSON).assertThat()
+            .header("Content-Length", Matchers.equalTo("37"))
+            .extract().response().asString()
+        Payload().log(postLoginUnsuccessfulEmptyResponse)
+
+        val js3 : JsonPath = Payload().rawToJson(postLoginUnsuccessfulEmptyResponse)
+        val actualError3 :String = js3.getString("error")
+        println(actualError3)
+
+        Assert.assertEquals(actualError3,"Missing email or username")
+
+    }
+
+    @Test
+    fun postLoginIncorrectBodyFormatting() {
+
+        val postLoginIncorrectBodyFormattingResponse = given().spec(requestSpecification)
+            .body(Payload().incorrectFormatting())
+            .`when`().post("login")
+            .then().assertThat().statusCode(400).assertThat()
+            .contentType("text/html")
+            .extract().response().asString()
+        Payload().log(postLoginIncorrectBodyFormattingResponse)
+    }
+
+    @Test
+    fun postLoginIncorrectBodyFormatting2() {
+
+        val postLoginIncorrectBodyFormatting2Response = given().spec(requestSpecification)
+            .body(Payload().incorrectFormatting2())
+            .`when`().post("login")
+            .then().assertThat().statusCode(400).assertThat()
+            .contentType("text/html")
+            .extract().response().asString()
+        Payload().log(postLoginIncorrectBodyFormatting2Response)
+    }
+
+    @Test
+    fun postLoginVeryLongBody() {
+
+        val postLoginVeryLongBodyResponse = given().spec(requestSpecification)
+            .body(Payload().veryLongBody())
+            .`when`().post("login")
+            .then().assertThat().statusCode(413)
+            .extract().response().asString()
+        Payload().log(postLoginVeryLongBodyResponse)
+    }
+
+    @Test
+    fun postLoginSpecialSymbols() {
+
+        val postLoginSpecialSymbolsResponse = given().spec(requestSpecification)
+            .body(Payload().specialSymbols())
+            .`when`().post("login")
+            .then().assertThat().statusCode(400)
+            .extract().response().asString()
+        Payload().log(postLoginSpecialSymbolsResponse)
+    }
+
+    @Test
+    fun postLoginWithIncorrectContentType() {
+
+        val postLoginWithIncorrectContentTypeResponse = given().spec(requestSpecification)
+            .body(Payload().incorrectContentType())
+            .`when`().post("login")
+            .then().assertThat().statusCode(400).assertThat()
+            .contentType("text/html")
+            .extract().response().asString()
+        Payload().log(postLoginWithIncorrectContentTypeResponse)
+    }
+
     @Test
     fun postLoginUnsuccessful() {
 
@@ -68,22 +144,5 @@ class LoginOptions :BaseTest() {
         Assert.assertEquals(actualError2, "Missing email or username")
     }
 
-    @Test
-    fun postLoginUnsuccessfulEmptyResponse(){
-        val postLoginUnsuccessfulEmptyResponse = given().spec(requestSpecification)
-            .body("")
-            .`when`().post("login")
-            .then().assertThat().statusCode(400).assertThat()
-            .contentType(ContentType.JSON).assertThat()
-            .header("Content-Length", Matchers.equalTo("37"))
-            .extract().response().asString()
-        Payload().log(postLoginUnsuccessfulEmptyResponse)
 
-        val js3 : JsonPath = Payload().rawToJson(postLoginUnsuccessfulEmptyResponse)
-        val actualError3 :String = js3.getString("error")
-        println(actualError3)
-
-        Assert.assertEquals(actualError3,"Missing email or username")
-
-    }
 }
