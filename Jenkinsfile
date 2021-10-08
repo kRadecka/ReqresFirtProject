@@ -1,14 +1,20 @@
 pipeline {
     agent any
     stages {
-        stage('Build test code') {
+        stage('Build') {
             steps {
-                sh 'mvn clean install -DskipTests'
+                    git 'https://github.com/kRadecka/ReqresFirtProject.git'
+                    sh './mvnw clean compile'
             }
         }
-        stage('Execute test') {
+        stage('Test') {
             steps {
-                sh 'mvn -Dtest= RunAllTests test'
+                sh './mvnw test'
+            }
+
+            post {
+                always {
+                    junit '**/target/TEST-*.xml'
             }
         }
 
