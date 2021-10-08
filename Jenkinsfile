@@ -15,7 +15,7 @@ pipeline {
     }
      stage('Execute test') {
           steps {
-              sh 'mvn -Dtest= RunAllTests test'
+              sh 'mvn test'
           }
      }
     }
