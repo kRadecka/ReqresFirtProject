@@ -4,12 +4,12 @@ pipeline {
         stage('Build') {
             steps {
                     git 'https://github.com/kRadecka/ReqresFirtProject.git'
-                    sh './mvnw clean compile'
+                    sh 'mvn clean install'
             }
         }
         stage('Test') {
             steps {
-                sh './mvnw test'
+                sh 'mvn test'
             }
 
             post {
