@@ -20,8 +20,7 @@ class UserOptionsTest: BaseTest() {
             .then().assertThat().statusCode(201).assertThat()
                 .body("name", equalTo("morpheus")).assertThat()
                 .body("size()", greaterThan(0)).assertThat()
-                .contentType(ContentType.JSON).assertThat()
-                .header("Content-Length", equalTo("84"))
+                .contentType(ContentType.JSON)
                 .extract().response().asString()
         Payload().log(postCreateUserResponse)
     }
@@ -116,8 +115,7 @@ class UserOptionsTest: BaseTest() {
             .`when`().put("users/2")
             .then().assertThat().statusCode(200).assertThat()
             .body("size()", greaterThan(0)).assertThat()
-            .contentType(ContentType.JSON).assertThat()
-            .header("Content-Length", equalTo("40"))
+            .contentType(ContentType.JSON)
             .extract().response().asString()
         Payload().log(putUpdateUserEmptyBodyResponse)
     }
@@ -201,8 +199,7 @@ class UserOptionsTest: BaseTest() {
             .`when`().patch("users/2")
             .then().assertThat().statusCode(200).assertThat()
             .body("size()", greaterThan(0)).assertThat()
-            .contentType(ContentType.JSON).assertThat()
-            .header("Content-Length", equalTo("40"))
+            .contentType(ContentType.JSON)
             .extract().response().asString()
         Payload().log(patchUpdateUserEmptyBodyResponse)
     }

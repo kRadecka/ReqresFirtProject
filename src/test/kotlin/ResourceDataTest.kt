@@ -65,8 +65,7 @@ class ResourceDataTest : BaseTest(){
             .`when`().get("unknown/23")
             .then().assertThat().statusCode(404).assertThat()
             .body("size()", equalTo(0)).assertThat()
-            .contentType(ContentType.JSON).assertThat()
-            .header("Content-Length", equalTo("2"))
+            .contentType(ContentType.JSON)
             .extract().response().asString()
         Payload().log(getSingleResourceNotFoundResponse)
     }

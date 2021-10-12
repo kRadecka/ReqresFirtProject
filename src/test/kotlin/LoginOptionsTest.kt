@@ -3,7 +3,6 @@ import data.Payload
 import io.restassured.RestAssured.given
 import io.restassured.http.ContentType
 import io.restassured.path.json.JsonPath
-import org.hamcrest.Matchers
 import org.junit.Assert
 import org.junit.Test
 import org.junit.jupiter.api.parallel.Execution
@@ -19,8 +18,7 @@ class LoginOptionsTest :BaseTest() {
             .body(Payload().loginSuccessful())
             .`when`().post("login")
             .then().assertThat().statusCode(200).assertThat()
-            .contentType(ContentType.JSON).assertThat()
-            .header("Content-Length", Matchers.equalTo("29"))
+            .contentType(ContentType.JSON)
             .extract().response().asString()
         Payload().log(postLoginSuccessfulResponse)
 
@@ -37,8 +35,7 @@ class LoginOptionsTest :BaseTest() {
         val postLoginUnsuccessfulEmptyResponse = given().spec(requestSpecification)
             .`when`().post("login")
             .then().assertThat().statusCode(400).assertThat()
-            .contentType(ContentType.JSON).assertThat()
-            .header("Content-Length", Matchers.equalTo("37"))
+            .contentType(ContentType.JSON)
             .extract().response().asString()
         Payload().log(postLoginUnsuccessfulEmptyResponse)
 
@@ -115,8 +112,7 @@ class LoginOptionsTest :BaseTest() {
             .body(Payload().loginUnsuccessful())
             .`when`().post("login")
             .then().assertThat().statusCode(400).assertThat()
-            .contentType(ContentType.JSON).assertThat()
-            .header("Content-Length", Matchers.equalTo("28"))
+            .contentType(ContentType.JSON)
             .extract().response().asString()
         Payload().log(postLoginUnsuccessfulResponse)
 
@@ -134,8 +130,7 @@ class LoginOptionsTest :BaseTest() {
             .body(Payload().loginUnsuccessful2())
             .`when`().post("login")
             .then().assertThat().statusCode(400).assertThat()
-            .contentType(ContentType.JSON).assertThat()
-            .header("Content-Length", Matchers.equalTo("37"))
+            .contentType(ContentType.JSON)
             .extract().response().asString()
         Payload().log(postLoginUnsuccessfulPasswordResponse)
 
