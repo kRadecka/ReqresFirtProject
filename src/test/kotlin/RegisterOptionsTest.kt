@@ -3,7 +3,6 @@ import data.Payload
 import io.restassured.RestAssured.given
 import io.restassured.http.ContentType
 import io.restassured.path.json.JsonPath
-import org.hamcrest.Matchers.equalTo
 import org.junit.Assert
 import org.junit.Test
 import org.junit.jupiter.api.parallel.Execution
@@ -19,8 +18,7 @@ class RegisterOptionsTest: BaseTest() {
             .body(Payload().registerUser())
             .`when`().post("register")
             .then().assertThat().statusCode(200).assertThat()
-            .contentType(ContentType.JSON).assertThat()
-            .header("Content-Length", equalTo("36"))
+            .contentType(ContentType.JSON)
             .extract().response().asString()
         Payload().log(postRegisterSuccessfulResponse)
     }
@@ -31,8 +29,7 @@ class RegisterOptionsTest: BaseTest() {
         val postRegisterEmptyBodyResponse = given().spec(requestSpecification)
             .`when`().post("register")
             .then().assertThat().statusCode(400).assertThat()
-            .contentType(ContentType.JSON).assertThat()
-            .header("Content-Length", equalTo("37"))
+            .contentType(ContentType.JSON)
             .extract().response().asString()
         Payload().log(postRegisterEmptyBodyResponse)
 
@@ -110,8 +107,7 @@ class RegisterOptionsTest: BaseTest() {
             .body(Payload().incorrectData())
             .`when`().post("register")
             .then().assertThat().statusCode(400).assertThat()
-            .contentType(ContentType.JSON).assertThat()
-            .header("Content-Length", equalTo("28"))
+            .contentType(ContentType.JSON)
             .extract().response().asString()
         Payload().log(postRegisterUnsuccessfulResponse)
 
@@ -129,8 +125,7 @@ class RegisterOptionsTest: BaseTest() {
                 .body(Payload().incorrectData2())
                 .`when`().post("register")
                 .then().assertThat().statusCode(400).assertThat()
-                .contentType(ContentType.JSON).assertThat()
-                .header("Content-Length", equalTo("37"))
+                .contentType(ContentType.JSON)
                 .extract().response().asString()
             Payload().log(postRegisterUnsuccessfulPasswordResponse)
 
@@ -148,8 +143,7 @@ class RegisterOptionsTest: BaseTest() {
                 .body("")
                 .`when`().post("register")
                 .then().assertThat().statusCode(400).assertThat()
-                .contentType(ContentType.JSON).assertThat()
-                .header("Content-Length", equalTo("37"))
+                .contentType(ContentType.JSON)
                 .extract().response().asString()
             Payload().log(postRegisterUnsuccessfulEmptyResponse)
 
