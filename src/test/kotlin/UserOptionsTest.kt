@@ -6,7 +6,7 @@ import org.hamcrest.Matchers.equalTo
 import org.hamcrest.Matchers.greaterThan
 import org.junit.Test
 
-class UserOptions: BaseTest() {
+class UserOptionsTest: BaseTest() {
 
     @Test
     fun postCreateUser() {

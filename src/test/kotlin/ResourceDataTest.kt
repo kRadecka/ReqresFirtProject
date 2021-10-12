@@ -6,7 +6,7 @@ import org.hamcrest.Matchers.equalTo
 import org.hamcrest.Matchers.greaterThan
 import org.junit.Test
 
-class ResourceData : BaseTest(){
+class ResourceDataTest : BaseTest(){
 
     @Test
     fun getListResource(){

@@ -5,7 +5,7 @@ import org.slf4j.LoggerFactory
 
 open class Payload {
 
-      private val logger = LoggerFactory.getLogger("reqres.in")
+      private val logger = LoggerFactory.getLogger("reqres")
           fun log(s: String) {
           logger.info(s)
     }

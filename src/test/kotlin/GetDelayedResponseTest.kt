@@ -2,11 +2,10 @@ import data.BaseTest
 import data.Payload
 import io.restassured.RestAssured.given
 import io.restassured.http.ContentType
-import org.hamcrest.Matchers
 import org.hamcrest.Matchers.greaterThan
 import org.junit.Test
 
-class GetDelayedResponse: BaseTest() {
+class GetDelayedResponseTest: BaseTest() {
 
     @Test
     fun getDelayedResponse(){

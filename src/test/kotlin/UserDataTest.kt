@@ -5,7 +5,7 @@ import io.restassured.http.ContentType
 import org.hamcrest.Matchers.*
 import org.junit.Test
 
-class UserData :BaseTest() {
+class UserDataTest :BaseTest() {
 
     @Test
     fun getUserList() {

@@ -7,7 +7,7 @@ import org.hamcrest.Matchers.equalTo
 import org.junit.Assert
 import org.junit.Test
 
-class RegisterOptions: BaseTest() {
+class RegisterOptionsTest: BaseTest() {
 
     @Test
     fun postRegisterSuccessful(){
