@@ -31,7 +31,6 @@ class UserOptionsTest: BaseTest() {
             .then().assertThat().statusCode(201).assertThat()
             .body("size()", greaterThan(0)).assertThat()
             .contentType(ContentType.JSON).assertThat()
-            .header("Content-Length", equalTo("51"))
             .extract().response().asString()
         Payload().log(postCreateUserEmptyBodyResponse)
     }
