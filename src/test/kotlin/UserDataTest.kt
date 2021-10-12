@@ -4,7 +4,10 @@ import io.restassured.RestAssured.given
 import io.restassured.http.ContentType
 import org.hamcrest.Matchers.*
 import org.junit.Test
+import org.junit.jupiter.api.parallel.Execution
+import org.junit.jupiter.api.parallel.ExecutionMode
 
+@Execution(ExecutionMode.CONCURRENT)
 class UserDataTest :BaseTest() {
 
     @Test

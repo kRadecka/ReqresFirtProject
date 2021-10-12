@@ -6,7 +6,10 @@ import io.restassured.path.json.JsonPath
 import org.hamcrest.Matchers
 import org.junit.Assert
 import org.junit.Test
+import org.junit.jupiter.api.parallel.Execution
+import org.junit.jupiter.api.parallel.ExecutionMode
 
+@Execution(ExecutionMode.CONCURRENT)
 class LoginOptionsTest :BaseTest() {
 
     @Test
