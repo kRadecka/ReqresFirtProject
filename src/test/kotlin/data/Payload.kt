@@ -1,14 +1,13 @@
 package data
 import io.restassured.path.json.JsonPath
-
 import org.slf4j.LoggerFactory
 
 open class Payload {
 
-      private val logger = LoggerFactory.getLogger("reqres")
-          fun log(s: String) {
-          logger.info(s)
-    }
+       private val logger = LoggerFactory.getLogger("reqres")
+        fun log(s: String) {
+            logger.info(s)
+        }
 
 
     fun rawToJson(resp: String): JsonPath {
@@ -139,14 +138,14 @@ open class Payload {
                     "}"
         }
 
-        fun loginUnuccessful(): String {
+        fun loginUnsuccessful(): String {
 
             return """{
     "email": "peter@klaven"
             }""".trimIndent()
         }
 
-        fun loginUnuccessful2(): String {
+        fun loginUnsuccessful2(): String {
             return """{
     "password": "peter@klaven"
             }""".trimIndent()

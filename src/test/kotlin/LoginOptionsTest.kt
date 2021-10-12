@@ -109,7 +109,7 @@ class LoginOptionsTest :BaseTest() {
     fun postLoginUnsuccessful() {
 
         val postLoginUnsuccessfulResponse = given().spec(requestSpecification)
-            .body(Payload().loginUnuccessful())
+            .body(Payload().loginUnsuccessful())
             .`when`().post("login")
             .then().assertThat().statusCode(400).assertThat()
             .contentType(ContentType.JSON).assertThat()
@@ -128,7 +128,7 @@ class LoginOptionsTest :BaseTest() {
     fun postLoginUnsuccessfulPasswordResponse() {
 
         val postLoginUnsuccessfulPasswordResponse = given().spec(requestSpecification)
-            .body(Payload().loginUnuccessful2())
+            .body(Payload().loginUnsuccessful2())
             .`when`().post("login")
             .then().assertThat().statusCode(400).assertThat()
             .contentType(ContentType.JSON).assertThat()
