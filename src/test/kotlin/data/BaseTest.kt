@@ -32,7 +32,6 @@ open class BaseTest{
             .setContentType(ContentType.JSON)
             .setConfig(config)
             .build()
-
     }
 
     @After

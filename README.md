@@ -31,7 +31,7 @@ This is a project that preserves knowledge from the online course material.
 ## Technologies
 Project is created with: 
 * IntelliJ IDEA Community Edition 2021.2.2
-* JAVA 11
+* JAVA 17
 * Kotlin 1.5.10
 * MAVEN 2.22.2
 * Rest Assured 4.4.0
@@ -74,7 +74,7 @@ To open this project you have to:
 - > If you already have open project then goo to File -> New -> Project From Version Control... and open it
 - > else just click on Get from Version Control
 - Paste HTTPS address into URL input
-- You can change the directory - its up to you
+- You can change the directory - it is up to you
 - Click Clone button
 
 ## Launching

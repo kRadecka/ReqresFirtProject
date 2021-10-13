@@ -200,7 +200,6 @@
             <scope>runtime</scope>
         </dependency>
 
-
         <!-- Testing Dependencies -->
         <dependency>
             <groupId>org.assertj</groupId>
